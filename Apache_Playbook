@@ -17,6 +17,6 @@
         content: |
           <html>
           <body>
-            <h2>Welcome to Ansible from {{ inventory_hostname }}</h2>
+            <h2>Welcome to Ansible from {{ web_name }}</h2>
           </body>
           </html>
