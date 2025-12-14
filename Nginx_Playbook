@@ -1,0 +1,29 @@
+- name: nginx activty # name of the playbook
+  hosts: webserver # target node details
+  become: yes # on true TRUE ON YES
+  
+  tasks:
+    - name: Install the Nginx
+      dnf: # name of the module
+        name: nginx # name of the package
+        state: present # what actiivty you need to peform
+    - name: Configure nginx load balancer
+      copy:
+        dest: /etc/nginx/conf.d/lb.conf
+        content: |
+          upstream backend {
+              server 172.31.46.249;
+              server 172.31.45.95;
+          }
+
+          server {
+              listen 80;
+
+              location / {
+                  proxy_pass http://backend;
+              }
+          }	
+    - name: Start service nginx, if not started
+      service:
+        name: nginx
+        state: started

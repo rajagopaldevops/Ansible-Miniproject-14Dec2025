@@ -1,0 +1,22 @@
+- name: apache activty # name of the playbook
+  hosts: web # target node details
+  become: yes # on true TRUE ON YES
+  
+  tasks:
+    - name: Install the Apache
+      dnf: # name of the module
+        name: httpd # name of the package
+        state: present # what actiivty you need to peform
+    - name: Start service httpd, if not started
+      service:
+        name: httpd
+        state: started
+    - name: Deploy unique index page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <body>
+            <h2>Welcome to Ansible from {{ inventory_hostname }}</h2>
+          </body>
+          </html>
